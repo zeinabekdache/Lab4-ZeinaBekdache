@@ -31,6 +31,8 @@ Sphinx for documentation
 
 ### Generating Docs
 ```bash
+mkdir docs # in source directory
+cd docs
 sphinx-quickstart # initializes your sphinx docs
 make html # builds your html documentation
 ```

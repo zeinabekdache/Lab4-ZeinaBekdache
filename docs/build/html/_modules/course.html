@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>course &#8212; School Management System 1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for course</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Course Management Module</span>
+
+<span class="sd">This module provides a comprehensive Course class for managing course-related</span>
+<span class="sd">information in an educational management system.</span>
+
+<span class="sd">The module supports course creation, student enrollment, instructor assignment,</span>
+<span class="sd">and data serialization/deserialization.</span>
+
+<span class="sd">:module: course_management</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Course">
+<a class="viewcode-back" href="../course.html#course.Course">[docs]</a>
+<span class="k">class</span> <span class="nc">Course</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a course within an educational management system.</span>
+
+<span class="sd">    This class provides functionality for managing course details,</span>
+<span class="sd">    including student enrollment, instructor assignment, and serialization.</span>
+
+<span class="sd">    :ivar course_id: Unique numerical identifier for the course</span>
+<span class="sd">    :type course_id: int</span>
+<span class="sd">    :ivar course_name: Full name of the course</span>
+<span class="sd">    :type course_name: str</span>
+<span class="sd">    :ivar instructor: Instructor assigned to the course</span>
+<span class="sd">    :type instructor: Instructor, optional</span>
+<span class="sd">    :ivar enrolled_students: List of students enrolled in the course</span>
+<span class="sd">    :type enrolled_students: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">course_id</span><span class="p">,</span> <span class="n">course_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new Course instance.</span>
+
+<span class="sd">        Creates a course with a unique identifier and name,</span>
+<span class="sd">        initializing empty instructor and student lists.</span>
+
+<span class="sd">        :param course_id: Unique numerical identifier for the course</span>
+<span class="sd">        :type course_id: int</span>
+<span class="sd">        :param course_name: Full name of the course</span>
+<span class="sd">        :type course_name: str</span>
+<span class="sd">        :raises ValueError: If course name is less than two characters long after stripping whitespace</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate_course_name</span><span class="p">(</span><span class="n">course_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">course_id</span> <span class="o">=</span> <span class="n">course_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">course_name</span> <span class="o">=</span> <span class="n">course_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instructor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enrolled_students</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Course.add_student">
+<a class="viewcode-back" href="../course.html#course.Course.add_student">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_student</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enroll a student in the course.</span>
+
+<span class="sd">        Prevents duplicate student enrollments by checking existing enrollment.</span>
+<span class="sd">        Prints a message if the student is already enrolled.</span>
+
+<span class="sd">        :param student: Student object to be added to the course</span>
+<span class="sd">        :type student: Student</span>
+<span class="sd">        :raises TypeError: If the input is not a valid Student object</span>
+<span class="sd">        :returns: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">student</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">enrolled_students</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">student</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is already enrolled in this course </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">course_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">enrolled_students</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">student</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Course.validate_course_name">
+<a class="viewcode-back" href="../course.html#course.Course.validate_course_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">validate_course_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">course_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate the length of the course name.</span>
+
+<span class="sd">        Ensures the course name meets minimum length requirements</span>
+<span class="sd">        after removing leading and trailing whitespace.</span>
+
+<span class="sd">        :param course_name: Name of the course to validate</span>
+<span class="sd">        :type course_name: str</span>
+<span class="sd">        :raises ValueError: If course name is less than two characters long</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">course_name</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;course_name must be two or more characters&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Course.serialize">
+<a class="viewcode-back" href="../course.html#course.Course.serialize">[docs]</a>
+    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert course information to a serializable dictionary.</span>
+
+<span class="sd">        Creates a dictionary representation of the course, including:</span>
+<span class="sd">        - Course ID</span>
+<span class="sd">        - Course name</span>
+<span class="sd">        - List of enrolled student IDs</span>
+<span class="sd">        - Instructor ID (if assigned)</span>
+
+<span class="sd">        :returns: Dictionary containing serialized course data</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;course_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">course_id</span><span class="p">,</span>
+            <span class="s2">&quot;course_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">course_name</span><span class="p">,</span>
+            <span class="s2">&quot;enrolled_students&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">student</span><span class="o">.</span><span class="n">student_id</span> <span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">enrolled_students</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;instructor&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructor</span><span class="o">.</span><span class="n">instructor_id</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructor</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Course.deserialize">
+<a class="viewcode-back" href="../course.html#course.Course.deserialize">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">student_map</span><span class="p">,</span> <span class="n">instructor_map</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstruct a Course object from serialized data.</span>
+
+<span class="sd">        Recreates a Course instance using provided serialization data</span>
+<span class="sd">        and optional mappings for students and instructors.</span>
+
+<span class="sd">        :param data: Serialized course data dictionary</span>
+<span class="sd">        :type data: dict</span>
+<span class="sd">        :param student_map: Mapping of student IDs to Student objects</span>
+<span class="sd">        :type student_map: dict</span>
+<span class="sd">        :param instructor_map: Mapping of instructor IDs to Instructor objects</span>
+<span class="sd">        :type instructor_map: dict</span>
+<span class="sd">        :returns: Reconstructed Course instance</span>
+<span class="sd">        :rtype: Course</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">course</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;course_id&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;course_name&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;instructor&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">instructor_map</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">course</span><span class="o">.</span><span class="n">instructor</span> <span class="o">=</span> <span class="n">instructor_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;instructor&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_map</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">course</span><span class="o">.</span><span class="n">enrolled_students</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">student_map</span><span class="p">[</span><span class="n">student_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">student_id</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;enrolled_students&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">course</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide a human-readable string representation of the Course.</span>
+
+<span class="sd">        Generates a formatted string containing:</span>
+<span class="sd">        - Course name</span>
+<span class="sd">        - Instructor name (or &#39;None&#39;)</span>
+<span class="sd">        - Enrolled students (or &#39;None&#39;)</span>
+
+<span class="sd">        :returns: Formatted course description</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instructor_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructor</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructor</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span>
+        <span class="n">students</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">student</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">enrolled_students</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">course_name</span><span class="si">}</span><span class="s2"> (Instructor: </span><span class="si">{</span><span class="n">instructor_name</span><span class="si">}</span><span class="s2">), Students: </span><span class="si">{</span><span class="n">students</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">School Management System</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Lab 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../course.html">course module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_management.html">data_management module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../db_manager.html">db_manager module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instructor.html">instructor module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../student.html">student module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tkinter_gui.html">tkinter_gui module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Zeina Bekdache.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

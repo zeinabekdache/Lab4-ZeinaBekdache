@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>instructor &#8212; School Management System 1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for instructor</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Instructor Module</span>
+
+<span class="sd">This module defines the Instructor class, which represents an instructor in an educational system.</span>
+<span class="sd">The Instructor class inherits from the Person class and provides functionality for course assignment</span>
+<span class="sd">and serialization.</span>
+
+<span class="sd">:module: instructor</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">person</span> <span class="kn">import</span> <span class="n">Person</span>
+
+
+<div class="viewcode-block" id="Instructor">
+<a class="viewcode-back" href="../instructor.html#instructor.Instructor">[docs]</a>
+<span class="k">class</span> <span class="nc">Instructor</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an instructor in the educational management system.</span>
+
+<span class="sd">    This class extends the Person class with instructor-specific attributes</span>
+<span class="sd">    and methods such as course assignment and serialization.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        instructor_id (str): Unique identifier for the instructor</span>
+<span class="sd">        assigned_courses (list): List of courses assigned to the instructor</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">instructor_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new Instructor instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): Instructor&#39;s full name</span>
+<span class="sd">            age (int): Instructor&#39;s age</span>
+<span class="sd">            email (str): Instructor&#39;s email address</span>
+<span class="sd">            instructor_id (str): Unique instructor identifier</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">instructor_id</span> <span class="o">=</span> <span class="n">instructor_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assigned_courses</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Instructor.assign_course">
+<a class="viewcode-back" href="../instructor.html#instructor.Instructor.assign_course">[docs]</a>
+    <span class="k">def</span> <span class="nf">assign_course</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">course</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assign a course to the instructor.</span>
+
+<span class="sd">        Validates that the course is not already assigned to the instructor.</span>
+<span class="sd">        If the course is new, sets the instructor for the course and updates</span>
+<span class="sd">        the instructor&#39;s assigned courses list.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            course (Course): The course to be assigned</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            - Prints a message if course is already assigned to the instructor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We need to validate that a course is assigned once</span>
+        <span class="k">if</span> <span class="n">course</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assigned_courses</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is already assigned for this course </span><span class="si">{</span><span class="n">course</span><span class="o">.</span><span class="n">course_name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">course</span><span class="o">.</span><span class="n">instructor</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assigned_courses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">course</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Instructor.serialize">
+<a class="viewcode-back" href="../instructor.html#instructor.Instructor.serialize">[docs]</a>
+    <span class="k">def</span> <span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a dictionary representation of the instructor.</span>
+
+<span class="sd">        Serializes instructor information, including inherited person attributes</span>
+<span class="sd">        and instructor-specific details.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing instructor&#39;s serialized information</span>
+<span class="sd">                  with course IDs instead of course objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="o">**</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">serialize</span><span class="p">(),</span>
+            <span class="s2">&quot;instructor_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructor_id</span><span class="p">,</span>
+            <span class="s2">&quot;assigned_courses&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">course</span><span class="o">.</span><span class="n">course_id</span> <span class="k">for</span> <span class="n">course</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assigned_courses</span><span class="p">],</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Instructor.deserialize">
+<a class="viewcode-back" href="../instructor.html#instructor.Instructor.deserialize">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">deserialize</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">course_map</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstruct an Instructor instance from serialized data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (dict): Serialized instructor data</span>
+<span class="sd">            course_map (dict): Mapping of course IDs to course objects</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Instructor: A new Instructor instance with deserialized information</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            - If course_map is empty, assigned_courses will remain empty</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instructor</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;instructor_id&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">course_map</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">instructor</span><span class="o">.</span><span class="n">assigned_courses</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">course_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">course_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">course_id</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;assigned_courses&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="n">instructor</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a string representation of the instructor.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: A formatted string with instructor details including</span>
+<span class="sd">                 name, ID, age, email, and assigned courses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">courses</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">course</span><span class="o">.</span><span class="n">course_name</span> <span class="k">for</span> <span class="n">course</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assigned_courses</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Instructor: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (ID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instructor_id</span><span class="si">}</span><span class="s2">, Age: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">, Email: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">, Courses: </span><span class="si">{</span><span class="n">courses</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;None&#39;</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">School Management System</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Lab 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../course.html">course module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_management.html">data_management module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../db_manager.html">db_manager module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instructor.html">instructor module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../student.html">student module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tkinter_gui.html">tkinter_gui module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Zeina Bekdache.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
